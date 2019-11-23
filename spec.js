@@ -11,7 +11,7 @@ let a = alg({
 	isStrict:       true,
 	isAsync:        true, 	
     isThis:     	true,	
-    isAnonymous:    false,
+    // isAnonymous:    false,
 
     inputType:      "number",
 	outputType: 	"number", 
@@ -23,8 +23,10 @@ let a = alg({
     
     onError: 		"throw",
 
-	validations: 	[()=>{return !Number.isNaN(a)},()=>{return !Number.isNaN(b)}], // these should not contain the same validation that params does. 
+	validations: 	()=>{return !Number.isNaN(a) && !Number.isNaN(b)}, // these should not contain the same validation that params does. 
 	block: 			()=>{return a+b;},   // the actual function to execute
 
-	spec: ()=>{}, // unit tests performed on the function  
+	spec: ()=>{} // unit tests performed on the function  
 });
+
+console.log(a(4,5));

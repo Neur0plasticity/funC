@@ -23,7 +23,7 @@ module.exports = {
 	isStrict,
 	isAsync,
 	isThis,
-	isAnonymous,
+	// isAnonymous,
 	inputType,
 	outputType,
 	params,
@@ -64,9 +64,9 @@ function isAsync(val) {
 function isThis(val) {
 	typeof val === "boolean" || throwE("boolean expected");
 }
-function isAnonymous(val) {
-	typeof val === "boolean" || throwE("boolean expected");
-}
+// function isAnonymous(val) {
+// 	typeof val === "boolean" || throwE("boolean expected");
+// }
 function inputType(val) {
 	["boolean","string","number","object","array","symbol","function"]
 	 
@@ -89,9 +89,9 @@ function onError(val) {
 }
 function validations(val) {
 	if (typeof val === "function") {/** pass */} 
-	else if (Array.isArray(val))   { val.forEach((e)=>{
-		typeof e === "function" || throwE("expected function");
-	}); }
+	// else if (Array.isArray(val))   { val.forEach((e)=>{
+	// 	typeof e === "function" || throwE("expected function");
+	// }); }
 	else {throwE("unexpected handler")}
 }
 function block(val) {

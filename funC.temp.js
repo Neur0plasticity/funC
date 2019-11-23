@@ -33,27 +33,70 @@ module.exports = function(config) {
 	let c = config;
 
 	templateFunction: {
-
-
-
 		name 				= c.name;
 		description 		= c.description; 
 		author				= c.author;
 		notes				= c.notes;
 
 		strict				= c.isStrict?'"use strict";':"";
-		async				= c.isAsync?'async ':''; 
-console.log(`
-${strict}
-${async}function ${name}() {
-/*
- * author: ${author}
- * description: ${description}
- * notes: ${notes}
-*/
-}
-`);
+		async				= c.isAsync?'async ':''; 		
+		_this = null;
+		// _this				= c.isThis?``:``
 
+
+		params				= c.params;
+
+		if (c.isThis) {
+			_this = `${async}function ${name}(${params}) `
+		} else {
+			_this = `const ${name} = ${async}(${params}) => `
+		}
+
+		console.log("unprogrammed ... inputType, outputType");
+		inputType			= c.inputType;
+		outputType			= c.outputType;
+
+		inputBehavior		= c.inputBehavior;
+		outputBehavior      = c.outputBehavior;
+		console.log("unprogrammed ... inputBehavior, outputBehavior")
+		console.log("unprogrammed ... onError");
+		// console.log("unprogrammed ... validations");
+
+
+		validations			= c.validations;
+		block				= c.block;
+		spec				= c.spec;
+
+		console.log(`
+		${strict}
+		${_this}{
+		/*
+		* author: ${author}
+		* description: ${description}
+		* notes: ${notes}
+		*/
+			return (${validations})(${params}) 
+				&& 
+					(${block})(${params});
+		/* spec
+			${spec}
+		*/
+		}
+		`);
+
+		let cb = `/*
+		* author: ${author}
+		* description: ${description}
+		* notes: ${notes}
+		*/
+			return (${validations})(${params}) 
+				&& 
+					(${block})(${params});
+		/* spec
+			${spec}
+		*/`;
+
+		return new Function(params, `${cb}`);
 
 
 	}
