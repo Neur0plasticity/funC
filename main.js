@@ -1,1 +1,1 @@
-module.exports = function() {};
+module.exports = require("./funC.temp.js");
