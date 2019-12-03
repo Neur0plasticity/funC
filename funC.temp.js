@@ -67,6 +67,7 @@ module.exports = function(config) {
 		block				= c.block;
 		spec				= c.spec;
 
+
 		console.log(`
 		${strict}
 		${_this}{
@@ -96,9 +97,9 @@ module.exports = function(config) {
 			${spec}
 		*/`;
 
+		cb = isCapsule?capsule(cb):cb;
+
 		return new Function(params, `${cb}`);
-
-
 	}
 
 

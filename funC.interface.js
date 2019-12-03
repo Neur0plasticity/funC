@@ -23,6 +23,7 @@ module.exports = {
 	isStrict,
 	isAsync,
 	isThis,
+	isCapsule,
 	// isAnonymous,
 	inputType,
 	outputType,
@@ -62,6 +63,9 @@ function isAsync(val) {
 	typeof val === "boolean" || throwE("boolean expected");
 }
 function isThis(val) {
+	typeof val === "boolean" || throwE("boolean expected");
+}
+function isCapsule(val) {
 	typeof val === "boolean" || throwE("boolean expected");
 }
 // function isAnonymous(val) {
