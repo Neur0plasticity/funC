@@ -1,14 +1,14 @@
 # funC
 
-What function should be, total rewrite. Automated function writing. Promotes reusable code.
-
-Designed language agnostic. Transpilers need to be programmed.
-
+The anatomy of a function broken down atomically. Designed language agnostic. Recommend programming transpilers
+A configurable programming approach by atomizing the language features. Every feature is easily controlled
+by tweaking a configuration argument.
 
 # Why?
-* effortless complete total codebase configurable control
+* effortless complete codebase configurable control
 * strongly enforced codebase design patterns
 * paves reusable pathway
+* projects require a tiny fraction of code now
 
 # Documentation
 
