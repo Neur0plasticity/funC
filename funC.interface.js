@@ -53,7 +53,7 @@ function author(val) {
 }
 function notes(val) {
 	val 					|| throwE("missing arg");
-	Array.isArray(val) 		|| throwE("string required");
+	Array.isArray(val) 		|| throwE("array required");
 	val.forEach(description);
 }
 function isStrict(val) {
