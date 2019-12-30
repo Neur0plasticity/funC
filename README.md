@@ -12,6 +12,15 @@ Designed language agnostic. Transpilers need to be programmed.
 
 # Documentation
 
+    methods usage
+        funC.globalConfig(config);
+        funC.funC(funcConfiguration);
+
+        funC.instance(name,instanceConfiguration);
+
+        funC.instance(name).funC(funCconfiguration);
+        funC.instance(name).funC(funCconfiguration);
+
     configs:{
         name,                   // functions name
         description,            // functions brief explanation
