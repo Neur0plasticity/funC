@@ -1,4 +1,9 @@
-let alg = require("./func.temp.js");
+
+import {funC} from "./funC.temp";
+
+// let alg = require("./func.temp.js");
+
+let alg = funC;
 
 console.log(alg); 
 // alg.globalConfig(config);

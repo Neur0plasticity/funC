@@ -1,25 +1,42 @@
 /*
+	This interface allows functions data to be manipulable.
+
+	Coders may input data or write raw code.
+	if input data, verify data inputs, template data inputs to code;
+	else scrape code, verify data inputs, template data inputs to code;
+
+	Rules:
+	*** ZERO TOLERANCE VAR DECLARATION ... var declarations reference to global, they are buggy and useless since "let" declaration was made. 
+	*** UNDECLARED / REFERENCED variables are auditable for direct injection and class static memory referencing.
+	*** ZERO TOLERANCE NO COMMENTS, they'll be scraped into property notes.
+	*** ZERO TOLERANCE DYNANIC TYPING, strict type interactions only. Keeps the codebase clean.
+
+	KEEP IN MIND:
+	*** Language agnostic data structures allows smooth code translation.
+
+*/
+import {funCinterface, interface_funCinterface} from "./funC.interface";
+/*
 	func is configurable
 	* it can be a module of it's own
 	* it can be tweakable in it's environment
 */
-let gConfig = {};
-let instances = {};
-let configs = {};
-let funCs = {};
-let id = 0;
+let gConfig:   {[index: string]: {}} = {};
+let instances: {[index: string]: {}} = {};
+let configs:   {[index: string]: {}} = {};
+let funcs:     {[index: string]: {}} = {};
 
-const intF = require('./funC.interface.js');
-const itf_keys = Object.keys(intF);
+const intF:interface_funCinterface 	= funCinterface;
+const itf_keys: string[] 			= Object.keys(intF);
 
-const incConfig = function(config,name) {
+const incConfig:Function = function(config:{[index: string]: {}},name:string):void {
 	name = name || (()=>{throw new Error()})();
 	configs[name] = config;
 };
-const inheritConfig = function(config_inherit, config_inheritor) {
+const inheritConfig:Function = function(config_inherit:{[index: string]: {}}, config_inheritor:{[index: string]: {}}):void {
 	for (let k in config_inherit) !config_inheritor.hasOwnProperty(k) && (config_inheritor[k]=config_inherit[k]);
 };
-let confiGmain = function(config){
+let confiGmain = function(config:{[index: string]: {}}){
 		allPropsRequired:for (let k in itf_keys) {
 			k = itf_keys[k];
 			// console.log(k, config[k]);
@@ -31,9 +48,9 @@ let confiGmain = function(config){
 			intF[k](config[k]);
 		}
 };
-const fakeIfNull = function(obj,prop,val) {
+const fakeIfNull = function(obj,prop:string,val:any):void {
 	if (!obj.hasOwnProperty(prop)) {obj[prop] = val;}
-}	
+};	
 fakeIfNull.namE 		= function(obj) {fakeIfNull(obj,'name',			"fake name to pass test");};
 fakeIfNull.description 	= function(obj) {fakeIfNull(obj,'description',	"fake description to pass the test");};
 fakeIfNull.author		= function(obj) {fakeIfNull(obj,'author',		"fake author")};
@@ -41,7 +58,7 @@ fakeIfNull.notes 		= function(obj) {fakeIfNull(obj,'notes',		["fake notes to pas
 fakeIfNull.validations 	= function(obj) {fakeIfNull(obj,'validations',	()=>{/*fake*/});};
 fakeIfNull.block 		= function(obj) {fakeIfNull(obj,'block',		()=>{/*fake*/});};
 fakeIfNull.spec 		= function(obj) {fakeIfNull(obj,'spec',			()=>{/*fake*/});};
-const confiGglobal = function(config){
+const confiGglobal:Function = function(config:{[index: string]: {}}):interface_pm{
 
 	fakeIfNull.namE			(config); 
 	fakeIfNull.description	(config); 
@@ -62,7 +79,7 @@ const confiGglobal = function(config){
 	configs["global"] = gConfig;
 	return pm;
 };
-const confiGinstance = function(name,config) {
+const confiGinstance:Function = function(name:string,config:{[index: string]: {}}) {
 	if (!name) 		{throw new Error();}
 	if (name&&config) {
 
@@ -90,18 +107,18 @@ const confiGinstance = function(name,config) {
 		// delete config.spec;
 		instances[name] = config;
 		incConfig(config,name);
-		return {funC:funC.bind({config:config})};
+		return {funC:func.bind({config:config})};
 	} 
 	else if (name) 		   {
 		config = instances[name]; console.log('c',config)
 		if (!config) {throw new Error();}
-		return {funC:funC.bind({config:config})}
+		return {funC:func.bind({config:config})}
 	} 
 	else 				   {
 		throw new Error();
 	}
 };
-const confiGfunC = function(config) {
+const confiGfunC:Function = function(config):void {
 	confiG(config);
 	// delete config.name;
 	// delete config.description;
@@ -113,47 +130,44 @@ const confiGfunC = function(config) {
 	// instances = config;
 	incConfig(config, config.name);
 };
+export interface interface_meths {
+	global,
+	instance,
+	funC
+};
 const meths = {
 	global:confiGglobal,
 	instance: confiGinstance,
 	funC: confiGfunC
 };
 const confiG = Object.freeze(Object.assign(confiGmain,meths));
-const funC = function(config) {
+const func:Function = function(config):Function {
 
 	if (typeof this.config === "object") {inheritConfig(this.config,config);}
 
 	confiG.funC(config);
 	let c = config;
-	templateFunction: {
-		let name 				= c.name;
-		let description 		= c.description; 
-		let author				= c.author;
-		let notes				= c.notes;
-		let strict				= c.isStrict?'"use strict";':"";
-		let async				= c.isAsync?'async ':''; 		
-		let _this = null;
-		// _this				= c.isThis?``:``
-		let params				= c.params;
+	templatefunction: {
+		const name 					= c.name;
+		const description 			= c.description; 
+		const author				= c.author;
+		const notes					= c.notes;
+		const params				= c.params;
+		const strict				= c.isStrict?'"use strict";':"";
+		const async					= c.isAsync?'async ':''; 		
+		const _this = c.isThis? (`${async}function ${name}(${params}) `):(`const ${name} = ${async}(${params}) => `);
 		// let isCapsule		    = c.isCapsule === true;
-		if (c.isThis) {
-			_this = `${async}function ${name}(${params}) `
-		} else {
-			_this = `const ${name} = ${async}(${params}) => `
-		}
-		console.log("unprogrammed ... inputType, outputType");
-		let inputType			= c.inputType;
-		let outputType			= c.outputType;
-		let inputBehavior		= c.inputBehavior;
-		let outputBehavior      = c.outputBehavior;
-		console.log("unprogrammed ... inputBehavior, outputBehavior")
-		console.log("unprogrammed ... onError");
-		// console.log("unprogrammed ... validations");
-		let validations			= c.validations;
-		let block				= c.block;
-		let spec				= c.spec;
+		const inputType				= c.inputType;
+		const outputType			= c.outputType;
+		const inputBehavior			= c.inputBehavior;
+		const outputBehavior      	= c.outputBehavior;
+		const onError 				= c.onError;
 
-		let cb = `/*
+		const validations			= c.validations;
+		const block					= c.block;
+		const spec					= c.spec;
+
+		const cb = `/*
 		* author: ${author}
 		* description: ${description}
 		* notes: ${notes}
@@ -169,10 +183,15 @@ const funC = function(config) {
 		return new Function(params, `${cb}`);
 	}
 };
-const pm = Object.freeze({
+export interface interface_pm {
+	globalConfig,
+	instance,
+	funC
+};
+const pm:interface_pm = Object.freeze({
 	globalConfig: confiG.global,
 	instance: confiG.instance,
-	funC: funC
+	funC: func
 });
-module.exports = pm;
+export const funC:interface_pm = pm;
 

@@ -1,0 +1,19 @@
+{
+  "name": "func",
+  "version": "1.0.0",
+  "description": "The anatomy of a function broken down atomically. Designed language agnostic. Recommend programming transpilers A configurable programming approach by atomizing the language features. Every feature is easily controlled by tweaking a configuration argument.",
+  "main": "./dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Neur0plasticity/funC.git"
+  },
+  "author": "djtinkers365@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Neur0plasticity/funC/issues"
+  },
+  "homepage": "https://github.com/Neur0plasticity/funC#readme"
+}
