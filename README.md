@@ -42,7 +42,82 @@ by tweaking a configuration argument.
         spec                    // code asserting expected inputs & outputs
     }
 
-# Code Demo
+# Simple Code Demo
+
+let funC = require("funC");
+
+funC.globalConfigure({
+	author:"djtinkers365@gmail.com",
+	isStrict:true,	
+	isAsync:false, 
+	isThis:false, 
+	isCapsule:false,
+	inputType:"number", 
+	outputType:"number", 
+	params:["n0","n1"],
+	inputBehavior: "arguments", 
+	outputBehavior: "return",
+	onError: "throw",
+	validations: ()=>{Number.isSafeInteger(n0)&&Number.isSafeInteger(n1);}
+	spec: ()=>{/*faked spec*/}
+});
+ [
+  ["add","+"],["sub","-"],["mul","*"],["div","/"],["mod","%"],["or","|"],
+  ["and","&"],["xor","^"],["AND","&&"],["OR","||"]
+ ].forEach(e=>{
+	  funC.funC({
+		  name: e[0], block: `n0 ${e[1]} n1;`
+	  });
+  });
+
+
+  /* prints / creates functions with strong design patterns
+  
+	function add (n0,n1)/*:number*/ {
+		if (!nSafe(n0)||!nSafe(n1)) {throw new Error('unsafe number');}
+		return n0 + n1;
+	}
+	function sub (n0,n1)/*:number*/ {
+		if (!nSafe(n0)||!nSafe(n1)) {throw new Error('unsafe number');}
+		return n0 - n1;
+	}
+	function mul (n0,n1)/*:number*/ {
+		if (!nSafe(n0)||!nSafe(n1)) {throw new Error('unsafe number');}
+		return n0 * n1;
+	}
+	function div (n0,n1)/*:number*/ {
+		if (!nSafe(n0)||!nSafe(n1)) {throw new Error('unsafe number');}
+		return n0 / n1;
+	}
+	function mod (n0,n1)/*:number*/ {
+		if (!nSafe(n0)||!nSafe(n1)) {throw new Error('unsafe number');}
+		return n0 % n1;
+	}
+	function or (n0,n1)/*:number*/ {
+		if (!nSafe(n0)||!nSafe(n1)) {throw new Error('unsafe number');}
+		return n0 | n1;
+	}
+	function and (n0,n1)/*:number*/ {
+		if (!nSafe(n0)||!nSafe(n1)) {throw new Error('unsafe number');}
+		return n0 & n1;
+	}
+	function xor (n0,n1)/*:number*/ {
+		if (!nSafe(n0)||!nSafe(n1)) {throw new Error('unsafe number');}
+		return n0 ^ n1;
+	}
+	function AND (n0,n1)/*:number*/ {
+		if (!nSafe(n0)||!nSafe(n1)) {throw new Error('unsafe number');}
+		return n0 && n1;
+	}
+	function OR (n0,n1)/*:number*/ {
+		if (!nSafe(n0)||!nSafe(n1)) {throw new Error('unsafe number');}
+		return n0 || n1;
+	}
+*/
+
+
+
+#Larger Code Demo
 
     let funC = require("funC");
 
