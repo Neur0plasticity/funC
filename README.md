@@ -12,67 +12,72 @@ by tweaking a configuration argument.
 
 # Documentation
 
-    methods usage
-        funC.globalConfig(config);
-        funC.funC(funcConfiguration);
+		methods usage
+			funC.globalConfig(config);
+			funC.funC(funcConfiguration);
 
-        funC.instance(name,instanceConfiguration);
+			funC.instance(name,instanceConfiguration);
 
-        funC.instance(name).funC(funCconfiguration);
-        funC.instance(name).funC(funCconfiguration);
+			funC.instance(name).funC(funCconfiguration);
+			funC.instance(name).funC(funCconfiguration);
 
-    configs:{
-        name,                   // functions name
-        description,            // functions brief explanation
-        author,                 // the code creator
-        notes,                  // important must read notes
-        isStrict,               // javascripts strict mode "use strict" 
-        isAsync,                // javascripts async function prefix modifier
-        isThis,                 // function(){}   vs    ()=>{}
-        isCapsule,              // UNFINISHED
-        // isAnonymous,         // UNFINISHED
-        inputType,              // allowed input datatypes
-        outputType,             // allowed output datatypes
-        params,                 // required parameters
-        inputBehavior,          // the way in which input is received into the function
-        outputBehavior,         // the way in which output is received into the function
-        onError,                // does what on Error
-        validations,            // do these validations before invoking block code
-        block,                  // the functions main code
-        spec                    // code asserting expected inputs & outputs
-    }
+		configs:{
+			name,                   // functions name
+			description,            // functions brief explanation
+			author,                 // the code creator
+			notes,                  // important must read notes
+			isStrict,               // javascripts strict mode "use strict" 
+			isAsync,                // javascripts async function prefix modifier
+			isThis,                 // function(){}   vs    ()=>{}
+			isCapsule,              // UNFINISHED
+			// isAnonymous,         // UNFINISHED
+			inputType,              // allowed input datatypes
+			outputType,             // allowed output datatypes
+			params,                 // required parameters
+			inputBehavior,          // the way in which input is received into the function
+			outputBehavior,         // the way in which output is received into the function
+			onError,                // does what on Error
+			validations,            // do these validations before invoking block code
+			block,                  // the functions main code
+			spec                    // code asserting expected inputs & outputs
+		}
 
 # Simple Code Demo
 
-let funC = require("funC");
 
-funC.globalConfigure({
-	author:"djtinkers365@gmail.com",
-	isStrict:true,	
-	isAsync:false, 
-	isThis:false, 
-	isCapsule:false,
-	inputType:"number", 
-	outputType:"number", 
-	params:["n0","n1"],
-	inputBehavior: "arguments", 
-	outputBehavior: "return",
-	onError: "throw",
-	validations: ()=>{Number.isSafeInteger(n0)&&Number.isSafeInteger(n1);}
-	spec: ()=>{/*faked spec*/}
-});
- [
-  ["add","+"],["sub","-"],["mul","*"],["div","/"],["mod","%"],["or","|"],
-  ["and","&"],["xor","^"],["AND","&&"],["OR","||"]
- ].forEach(e=>{
-	  funC.funC({
-		  name: e[0], block: `n0 ${e[1]} n1;`
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////// Do this : below
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	let funC = require("funC");
+
+	funC.globalConfigure({
+		author:"djtinkers365@gmail.com",
+		isStrict:true,	
+		isAsync:false, 
+		isThis:false, 
+		isCapsule:false,
+		inputType:"number", 
+		outputType:"number", 
+		params:["n0","n1"],
+		inputBehavior: "arguments", 
+		outputBehavior: "return",
+		onError: "throw",
+		validations: ()=>{Number.isSafeInteger(n0)&&Number.isSafeInteger(n1);}
+		spec: ()=>{/*faked spec*/}
+	});
+	 [
+	  ["add","+"],["sub","-"],["mul","*"],["div","/"],["mod","%"],["or","|"],
+	  ["and","&"],["xor","^"],["AND","&&"],["OR","||"]
+	 ].forEach(e=>{
+		  funC.funC({
+			  name: e[0], block: `n0 ${e[1]} n1;`
+		  });
 	  });
-  });
-
-
-  /* prints / creates functions with strong design patterns
-  
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////// Do the above instead of below
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	function add (n0,n1)/*:number*/ {
 		if (!nSafe(n0)||!nSafe(n1)) {throw new Error('unsafe number');}
 		return n0 + n1;
@@ -113,7 +118,7 @@ funC.globalConfigure({
 		if (!nSafe(n0)||!nSafe(n1)) {throw new Error('unsafe number');}
 		return n0 || n1;
 	}
-*/
+
 
 
 
